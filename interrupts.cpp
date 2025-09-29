@@ -23,8 +23,6 @@ int main(int argc, char** argv) {
     long long clock = 0;      
     const int MODE_SWITCH = 1;   
     int SAVE_CONTEXT = 10;  
-    const int FIND_VECTOR = 1;
-    const int GET_ISR_ADDR = 1;
     const int IRET = 1;
 
     /******************************************************************/
