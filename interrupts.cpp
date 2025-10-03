@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
             int dev = duration_intr;
             int io_time = delays.at(dev);
 
-            execution += std:: tp_string(clocl) + ", " + std::to_string(io_time) + ", end of IO" + std::to_string(dev) + ", interuppt\n";
+            execution += std:: to_string(clock) + ", " + std::to_string(io_time) + ", end of IO" + std::to_string(dev) + ", interuppt\n";
             clock += io_time;
         }
 
