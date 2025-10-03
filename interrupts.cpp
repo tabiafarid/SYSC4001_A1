@@ -48,8 +48,34 @@ int main(int argc, char** argv) {
             clock = newTime;
 
             int ISR_body = delays.at(dev);
-            execution += std::to_string(clock) + ", " + std::to_string(ISR_body)+  ", call device driver\n";
-            clock += ISR_body;
+            execution += std::to_string(clock) + ", " + std::to_string(40)+  ", SYSCALL: call device driver\n";
+            clock += 40;
+
+            int time_remaining = ISR_body - 40;
+            execution += std::to_string(clock) + ", " + std::to_string(time_remaining)+  ", transfer data from device to main memory\n";
+            clock += time_remaining;
+
+            execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
+            clock += IRET;
+
+        }
+
+        //END I/O
+        else if (activity == "END_IO") {
+            int dev = duration_intr;
+
+            auto [firstSteps, newTime] = intr_boilerplate(clock, dev, SAVE_CONTEXT, vectors);
+            execution += firstSteps;
+            clock = newTime;
+
+            int ISR_body = delays.at(dev);
+            int activity1 = 40;
+            execution += std::to_string(clock) + ", " + std::to_string(activity1)+  ", END IO: call device driver\n";
+            clock += activity1;
+
+            int time_remaining = ISR_body - activity1;
+            execution += std::to_string(clock) + ", " + std::to_string(time_remaining)+  ", confirm data was transferred successfully\n";
+            clock += time_remaining;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
