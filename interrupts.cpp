@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
             clock += 40;
 
             int check_errors = ISR_body - 80;
-            execution += std::to_string(clock) + ", " + std::to_string(check_errors)+  ", transfer data from device to main memory\n";
+            execution += std::to_string(clock) + ", " + std::to_string(check_errors)+  ", check for errors\n";
             clock += check_errors;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
