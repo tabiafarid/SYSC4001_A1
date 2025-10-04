@@ -51,9 +51,13 @@ int main(int argc, char** argv) {
             execution += std::to_string(clock) + ", " + std::to_string(40)+  ", SYSCALL: call device driver\n";
             clock += 40;
 
-            int time_remaining = ISR_body - 40;
-            execution += std::to_string(clock) + ", " + std::to_string(time_remaining)+  ", transfer data from device to main memory\n";
-            clock += time_remaining;
+    
+            execution += std::to_string(clock) + ", " + std::to_string(40)+  ", transfer data from device to main memory\n";
+            clock += 40;
+
+            int check_errors = ISR_body - 80;
+            execution += std::to_string(clock) + ", " + std::to_string(check_errors)+  ", transfer data from device to main memory\n";
+            clock += check_errors;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
