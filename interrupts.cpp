@@ -22,7 +22,8 @@ int main(int argc, char** argv) {
 
     long long clock = 0;      
     const int MODE_SWITCH = 1;   
-    int SAVE_CONTEXT = 10;  
+    int SAVE_RESTORE_CONTEXT = 10;
+    const int ISR_ACTIVITY = 40;  
     const int IRET = 1;
 
     /******************************************************************/
@@ -43,24 +44,33 @@ int main(int argc, char** argv) {
         else if (activity == "SYSCALL") {
             int dev = duration_intr;
 
-            auto [firstSteps, newTime] = intr_boilerplate(clock, dev, SAVE_CONTEXT, vectors);
+            auto [firstSteps, newTime] = intr_boilerplate(clock, dev, SAVE_RESTORE_CONTEXT, vectors);
             execution += firstSteps;
             clock = newTime;
 
             int ISR_body = delays.at(dev);
-            execution += std::to_string(clock) + ", " + std::to_string(40)+  ", SYSCALL: call device driver\n";
-            clock += 40;
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY)+  ", SYSCALL: run the ISR (device driver)\n";
+            clock += ISR_ACTIVITY;
+            ISR_body -= ISR_ACTIVITY;
 
     
-            execution += std::to_string(clock) + ", " + std::to_string(40)+  ", transfer data from device to main memory\n";
-            clock += 40;
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY)+  ", transfer data from device to main memory\n";
+            clock += ISR_ACTIVITY;
+            ISR_body -= ISR_ACTIVITY;
 
-            int check_errors = ISR_body - 80;
+            int check_errors = ISR_body;
             execution += std::to_string(clock) + ", " + std::to_string(check_errors)+  ", check for errors\n";
             clock += check_errors;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
+
+            execution += std::to_string(clock) + ", " + std::to_string(SAVE_RESTORE_CONTEXT) + ", restore context\n";
+            clock += SAVE_RESTORE_CONTEXT;
+
+            execution += std::to_string(clock) + ", " + std::to_string(MODE_SWITCH) + ", switch to user mode\n";
+            clock += MODE_SWITCH;
+
 
         }
 
@@ -68,21 +78,27 @@ int main(int argc, char** argv) {
         else if (activity == "END_IO") {
             int dev = duration_intr;
 
-            auto [firstSteps, newTime] = intr_boilerplate(clock, dev, SAVE_CONTEXT, vectors);
+            auto [firstSteps, newTime] = intr_boilerplate(clock, dev, SAVE_RESTORE_CONTEXT, vectors);
             execution += firstSteps;
             clock = newTime;
 
             int ISR_body = delays.at(dev);
-            int activity1 = 40;
-            execution += std::to_string(clock) + ", " + std::to_string(activity1)+  ", END IO: call device driver\n";
-            clock += activity1;
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY)+  ", ENDIO: run the ISR (device driver)\n";
+            clock += ISR_ACTIVITY;
 
-            int time_remaining = ISR_body - activity1;
-            execution += std::to_string(clock) + ", " + std::to_string(time_remaining)+  ", confirm data was transferred successfully\n";
-            clock += time_remaining;
+            ISR_body -= ISR_ACTIVITY;
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_body)+  ", confirm data was transferred successfully\n";
+            clock += ISR_body;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
+
+            
+            execution += std::to_string(clock) + ", " + std::to_string(SAVE_RESTORE_CONTEXT) + ", restore context\n";
+            clock += SAVE_RESTORE_CONTEXT;
+
+            execution += std::to_string(clock) + ", " + std::to_string(MODE_SWITCH) + ", switch to user mode\n";
+            clock += MODE_SWITCH;
 
         }
 
