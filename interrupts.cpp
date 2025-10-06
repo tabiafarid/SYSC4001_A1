@@ -2,6 +2,8 @@
  *
  * @file interrupts.cpp
  * @author Sasisekhar Govind
+ * @author Tabia Farid
+ * @author Naima Mamun
  *
  */
 
@@ -49,18 +51,31 @@ int main(int argc, char** argv) {
             clock = newTime;
 
             int ISR_body = delays.at(dev);
-            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY)+  ", SYSCALL: run the ISR (device driver)\n";
-            clock += ISR_ACTIVITY;
-            ISR_body -= ISR_ACTIVITY;
 
-    
-            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY)+  ", transfer data from device to main memory\n";
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY) + ", SYSCALL: run the ISR (device driver)\n";
             clock += ISR_ACTIVITY;
             ISR_body -= ISR_ACTIVITY;
+            if (ISR_body < 0) {
+                execution += std::to_string(clock) + ", 0, **ERROR: ISR activity exceeded total device delay — DEVICE TIMEOUT / DATA LOSS**\n";
+                break;
+            }
+
+            execution += std::to_string(clock) + ", " + std::to_string(ISR_ACTIVITY) + ", transfer data from device to main memory\n";
+            clock += ISR_ACTIVITY;
+            ISR_body -= ISR_ACTIVITY;
+            if (ISR_body < 0) {
+                execution += std::to_string(clock) + ", 0, **ERROR: ISR activity exceeded total device delay — DEVICE TIMEOUT / DATA LOSS**\n";
+                break;
+            }
 
             int check_errors = ISR_body;
-            execution += std::to_string(clock) + ", " + std::to_string(check_errors)+  ", check for errors\n";
-            clock += check_errors;
+            if (check_errors < 0) {
+                execution += std::to_string(clock) + ", 0, **ERROR: ISR activity exceeded total device delay — DEVICE TIMEOUT / DATA LOSS**\n";
+                break;
+            } else {
+                execution += std::to_string(clock) + ", " + std::to_string(check_errors) + ", check for errors\n";
+                clock += check_errors;
+            }
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
@@ -87,13 +102,16 @@ int main(int argc, char** argv) {
             clock += ISR_ACTIVITY;
 
             ISR_body -= ISR_ACTIVITY;
+            if (ISR_body < 0) {
+                execution += std::to_string(clock) + ", 0, **ERROR: ISR activity exceeded total device delay — DEVICE TIMEOUT / DATA LOSS**\n";
+                break;
+            }
             execution += std::to_string(clock) + ", " + std::to_string(ISR_body)+  ", confirm data was transferred successfully\n";
             clock += ISR_body;
 
             execution += std::to_string(clock) + ", " + std::to_string(IRET) + ", IRET\n";
             clock += IRET;
 
-            
             execution += std::to_string(clock) + ", " + std::to_string(SAVE_RESTORE_CONTEXT) + ", restore context\n";
             clock += SAVE_RESTORE_CONTEXT;
 
