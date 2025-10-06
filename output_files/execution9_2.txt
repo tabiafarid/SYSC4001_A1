@@ -1,0 +1,64 @@
+0, 55, CPU burst
+55, 1, switch to kernel mode
+56, 10, context saved
+66, 1, find vector 10 in memory position 0x0014
+67, 1, load address 0X07B0 into the PC
+68, 180, SYSCALL: run the ISR (device driver)
+248, 180, transfer data from device to main memory
+428, 204, check for errors
+632, 1, IRET
+633, 10, restore context
+643, 1, switch to user mode
+644, 35, CPU burst
+679, 1, switch to kernel mode
+680, 10, context saved
+690, 1, find vector 10 in memory position 0x0014
+691, 1, load address 0X07B0 into the PC
+692, 180, ENDIO: run the ISR (device driver)
+872, 384, confirm data was transferred successfully
+1256, 1, IRET
+1257, 10, restore context
+1267, 1, switch to user mode
+1268, 60, CPU burst
+1328, 1, switch to kernel mode
+1329, 10, context saved
+1339, 1, find vector 8 in memory position 0x0010
+1340, 1, load address 0X06EF into the PC
+1341, 180, SYSCALL: run the ISR (device driver)
+1521, 180, transfer data from device to main memory
+1701, 640, check for errors
+2341, 1, IRET
+2342, 10, restore context
+2352, 1, switch to user mode
+2353, 70, CPU burst
+2423, 1, switch to kernel mode
+2424, 10, context saved
+2434, 1, find vector 8 in memory position 0x0010
+2435, 1, load address 0X06EF into the PC
+2436, 180, ENDIO: run the ISR (device driver)
+2616, 820, confirm data was transferred successfully
+3436, 1, IRET
+3437, 10, restore context
+3447, 1, switch to user mode
+3448, 30, CPU burst
+3478, 1, switch to kernel mode
+3479, 10, context saved
+3489, 1, find vector 19 in memory position 0x0026
+3490, 1, load address 0X0765 into the PC
+3491, 180, SYSCALL: run the ISR (device driver)
+3671, 180, transfer data from device to main memory
+3851, 292, check for errors
+4143, 1, IRET
+4144, 10, restore context
+4154, 1, switch to user mode
+4155, 50, CPU burst
+4205, 1, switch to kernel mode
+4206, 10, context saved
+4216, 1, find vector 19 in memory position 0x0026
+4217, 1, load address 0X0765 into the PC
+4218, 180, ENDIO: run the ISR (device driver)
+4398, 472, confirm data was transferred successfully
+4870, 1, IRET
+4871, 10, restore context
+4881, 1, switch to user mode
+4882, 40, CPU burst

@@ -1,0 +1,64 @@
+0, 95, CPU burst
+95, 1, switch to kernel mode
+96, 20, context saved
+116, 1, find vector 6 in memory position 0x000C
+117, 1, load address 0X0639 into the PC
+118, 40, SYSCALL: run the ISR (device driver)
+158, 40, transfer data from device to main memory
+198, 185, check for errors
+383, 1, IRET
+384, 20, restore context
+404, 1, switch to user mode
+405, 26, CPU burst
+431, 1, switch to kernel mode
+432, 20, context saved
+452, 1, find vector 6 in memory position 0x000C
+453, 1, load address 0X0639 into the PC
+454, 40, ENDIO: run the ISR (device driver)
+494, 225, confirm data was transferred successfully
+719, 1, IRET
+720, 20, restore context
+740, 1, switch to user mode
+741, 72, CPU burst
+813, 1, switch to kernel mode
+814, 20, context saved
+834, 1, find vector 17 in memory position 0x0022
+835, 1, load address 0X05B3 into the PC
+836, 40, SYSCALL: run the ISR (device driver)
+876, 40, transfer data from device to main memory
+916, 155, check for errors
+1071, 1, IRET
+1072, 20, restore context
+1092, 1, switch to user mode
+1093, 50, CPU burst
+1143, 1, switch to kernel mode
+1144, 20, context saved
+1164, 1, find vector 17 in memory position 0x0022
+1165, 1, load address 0X05B3 into the PC
+1166, 40, ENDIO: run the ISR (device driver)
+1206, 195, confirm data was transferred successfully
+1401, 1, IRET
+1402, 20, restore context
+1422, 1, switch to user mode
+1423, 88, CPU burst
+1511, 1, switch to kernel mode
+1512, 20, context saved
+1532, 1, find vector 14 in memory position 0x001C
+1533, 1, load address 0X0165 into the PC
+1534, 40, SYSCALL: run the ISR (device driver)
+1574, 40, transfer data from device to main memory
+1614, 376, check for errors
+1990, 1, IRET
+1991, 20, restore context
+2011, 1, switch to user mode
+2012, 31, CPU burst
+2043, 1, switch to kernel mode
+2044, 20, context saved
+2064, 1, find vector 14 in memory position 0x001C
+2065, 1, load address 0X0165 into the PC
+2066, 40, ENDIO: run the ISR (device driver)
+2106, 416, confirm data was transferred successfully
+2522, 1, IRET
+2523, 20, restore context
+2543, 1, switch to user mode
+2544, 52, CPU burst

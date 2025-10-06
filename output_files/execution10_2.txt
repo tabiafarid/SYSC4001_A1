@@ -1,0 +1,8 @@
+0, 80, CPU burst
+80, 1, switch to kernel mode
+81, 10, context saved
+91, 1, find vector 3 in memory position 0x0006
+92, 1, load address 0X042B into the PC
+93, 200, SYSCALL: run the ISR (device driver)
+293, 200, transfer data from device to main memory
+493, 0, **ERROR: ISR activity exceeded total device delay — DEVICE TIMEOUT / DATA LOSS**
